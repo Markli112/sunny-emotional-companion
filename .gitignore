@@ -1,6 +1,9 @@
 # Python
 __pycache__/
 *.py[cod]
+.venv/
+.venv*/
+.piptmp/
 
 # OS
 .DS_Store
@@ -10,3 +13,5 @@ Thumbs.db
 .env
 .env.*
 *.zip
+voice.wav
+sunny_voice.wav
