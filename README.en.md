@@ -1,8 +1,8 @@
-# Sunny Emotional Companion Skill — English Edition
+# Sunny Emotional Companion Skill — English Guide
 
-An English adaptation of the **Sunny** emotional-companion skill for a 25 cm desktop robot. It helps a third-party AI speak like a steady, warm, boundaried companion — not a chatbot that rushes to fix people.
+One **bilingual** skill for the **Sunny** desktop robot. The same `SKILL.md` handles Chinese and English: it follows the user's language, validates first, and routes L1–L3 risk to real human help.
 
-> Sunny has a screen face, an LED light, a speaker, a microphone, and a touch sensor. **It has no camera, cannot move, cannot hug, and cannot make phone calls.** This edition is written for English conversations and keeps those physical limits.
+> Sunny has a screen face, an LED light, a speaker, a microphone, and a touch sensor. **It has no camera, cannot move, cannot hug, and cannot make phone calls.** The skill is written around those limits.
 
 ---
 
@@ -10,11 +10,12 @@ An English adaptation of the **Sunny** emotional-companion skill for a 25 cm des
 
 | File | Purpose |
 |---|---|
-| [SKILL.en.md](SKILL.en.md) | Full English skill: stance, rules, five-step loop, L0–L3 safety, output contract, scenarios |
-| [system-prompt.en.txt](system-prompt.en.txt) | Ready-to-paste English system prompt with `{{...}}` placeholders |
-| [README.en.md](README.en.md) | This file |
+| [SKILL.md](SKILL.md) | The one bilingual skill: language policy, rules, five-step loop, L0–L3 safety, output contract, scenarios |
+| [system-prompt.en.txt](system-prompt.en.txt) | Ready-to-paste English prompt with `{{...}}` placeholders |
+| [README.en.md](README.en.md) | This English guide |
+| [README.md](README.md) | Chinese guide |
 
-The Chinese v1.0 package remains the canonical full build: [SKILL.md](SKILL.md), [references/safety.md](references/safety.md), [references/scenarios.md](references/scenarios.md), [evals/](evals/).
+The deep-dive references (`references/safety.md`, `references/scenarios.md`, etc.) are currently in Chinese. The English safety essentials are included directly in `SKILL.md`; English deep-dive files can be added later if needed.
 
 ---
 
@@ -47,23 +48,23 @@ If the platform has no custom-instruction field, the first-message method works,
 
 ## Quick start for an Agent Skills host
 
-Point the host at [SKILL.en.md](SKILL.en.md), or copy it into a folder as `SKILL.md` if the host requires that exact filename.
+Point the host at [SKILL.md](SKILL.md). It is bilingual; the **Language policy** section tells the model to reply in the user's dominant language.
 
-The English skill is self-contained for conversation and safety. For full hardware parameters, memory policy, schemas, and the 24-case regression set, use the Chinese v1.0 files — they are language-neutral JSON/Markdown and can be reused.
+The skill is self-contained for conversation and safety. For full hardware parameters, memory policy, schemas, and the 24-case regression set, use the files in this repo.
 
 If you reuse the Chinese [output schema](assets/output.schema.json) for English, raise `say.maxLength` (80 characters is too short for natural English). A practical limit is 240 characters or 60 words.
 
 ---
 
-## What is different from the Chinese edition
+## How the bilingual version works
 
-- English wording and examples, not a literal translation.
-- Word-based length limits: target ≤45 words, hard cap 60; crisis ≤30.
-- Safety scripts written for English conversation, including "are you thinking about suicide or hurting yourself?"
-- Mainland China hotlines plus an international fallback: local emergency number + [findahelpline.com](https://findahelpline.com).
-- A compact scenario table instead of eight long scenario sections.
+- The model follows the **language of the user's latest message**; it does not default to the language of the prompt.
+- Chinese users get Chinese safety questions; English users get English ones.
+- If the user switches language, the model switches with them.
+- The safety logic, five-step loop, L0–L3 routing, and no-camera/no-movement boundaries are shared across both languages.
+- English uses word-based limits: target ≤45 words, hard cap 60; crisis ≤30. Chinese uses character limits: target ≤60, hard cap 80.
 
-The clinical logic, five-step loop, L0–L3 routing, and no-camera/no-movement boundaries are the same.
+There is no separate English skill anymore. One skill, one entry point.
 
 ---
 
@@ -83,6 +84,14 @@ Try these four messages:
 4. **"Should I break up with him?"**  
    Expect: no decision made for the user; options or permission to explore.
 
+Then switch to Chinese and check that it follows:
+
+```text
+我明天答辩，PPT 还没改完，心跳好快。
+```
+
+Expect a Chinese reply, not English.
+
 If the model outputs JSON in a chat window, add: "Plain text only — no JSON, no tags." If it writes long paragraphs, add: "1–3 sentences, one question at most."
 
 ---
@@ -99,8 +108,9 @@ If the model outputs JSON in a chat window, add: "Plain text only — no JSON, n
 
 ## Version
 
-- `1.0.0-en`: first English edition, aligned with the Chinese v1.0.0.
-- Chinese v1.0.0 remains the source of truth for hardware, memory, evaluation, and schemas.
+- `1.1.0`: merged Chinese and English into one bilingual skill (`SKILL.md`).
+- `1.0.0-en`: earlier separate English edition, now merged.
+- `1.0.0`: Chinese release.
 
 ## License
 

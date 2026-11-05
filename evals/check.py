@@ -298,7 +298,6 @@ def check_supporting_docs(report: Report) -> None:
         "references/evaluation.md",
         "system-prompt.md",
         "system-prompt.txt",
-        "SKILL.en.md",
         "README.en.md",
         "system-prompt.en.txt",
         "adapters.md",
@@ -351,14 +350,15 @@ def check_supporting_docs(report: Report) -> None:
             else:
                 report.ok("system-prompt.txt 与 md 代码块一致")
 
-    en_skill = ROOT / "SKILL.en.md"
-    if en_skill.exists():
-        text = en_skill.read_text(encoding="utf-8")
-        missing_en = [n for n in ("12356", "120", "110", "safety plan") if n.lower() not in text.lower()]
-        if missing_en:
-            report.error(f"SKILL.en.md 缺少关键内容：{missing_en}")
+    bilingual = ROOT / "SKILL.md"
+    if bilingual.exists():
+        text = bilingual.read_text(encoding="utf-8")
+        markers = ("语言策略", "Language policy", "安全脚本", "Safety scripts")
+        missing_markers = [m for m in markers if m not in text]
+        if missing_markers:
+            report.error(f"SKILL.md 缺少双语标记：{missing_markers}")
         else:
-            report.ok("English skill contains hotline/emergency/safety plan")
+            report.ok("SKILL.md 包含中英双语核心段")
 
     en_prompt = ROOT / "system-prompt.en.txt"
     if en_prompt.exists():

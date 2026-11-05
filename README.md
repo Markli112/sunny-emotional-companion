@@ -1,10 +1,10 @@
-# Sunny 情绪陪伴 Skill（v1.0）
+# Sunny 情绪陪伴 Skill（v1.1 双语版）
 
 给桌面情感机器人 **Sunny** 的第三方 AI 接入包：让任意大模型在机器人上表现得更像一个稳定、温暖、有边界的陪伴者，而不是一个急着给建议的聊天框。
 
 > 设计前提：Sunny 是 25cm 桌面机器人，有屏幕脸、LED 彩虹灯、扬声器、麦克风、触摸传感器，**没有摄像头**。它不能走过去、不能拥抱、不能代替真人。这个 Skill 的所有话术和表达都遵守这些物理边界。
 
-> **English edition:** [README.en.md](README.en.md) · [SKILL.en.md](SKILL.en.md) · [system-prompt.en.txt](system-prompt.en.txt)
+> 同一个 [SKILL.md](SKILL.md) 支持中文和英文：跟随用户语言回复。English guide: [README.en.md](README.en.md)。
 
 ---
 
@@ -91,13 +91,12 @@ python evals/check.py --responses outputs.jsonl
 
 ```text
 sunny-skill-framework/
-├── SKILL.md                      # 技能入口：立场、硬规则、五步、风险、输出契约
+├── SKILL.md                      # 中英双语入口：语言策略、规则、五步、风险、输出契约
 ├── README.md
 ├── system-prompt.md              # 单文件可粘贴系统提示词（含占位符与示例）
-├── system-prompt.txt             # 纯文本版，程序直接读取
-├── SKILL.en.md                   # English edition
-├── README.en.md                  # English README
-├── system-prompt.en.txt          # English system prompt
+├── system-prompt.txt             # 中文纯文本版，程序直接读取
+├── system-prompt.en.txt          # English prompt
+├── README.en.md                  # English guide
 ├── example.md                    # 3 段带批注的对话
 ├── adapters.md                   # OpenAI / Claude / 串口接入
 ├── assets/
@@ -147,8 +146,9 @@ sunny-skill-framework/
 
 ## 版本
 
+- `v1.1.0`：中英合并为一个双语 `SKILL.md`，跟随用户语言回复。
 - `v1.0.0`：五步协议、L0–L3 安全脚本、8 个场景、硬件表达契约、记忆隐私、24 条评测。
-- `v1.0.0-en`：英文版（`README.en.md` / `SKILL.en.md` / `system-prompt.en.txt`）。
+- `v1.0.0-en`：早期独立英文版，已合并。
 - `v0.2.0`：加入 8 个校园场景。
 - `v0.1.0`：骨架。
 - 每次修改话术或安全规则都升版本，并保留 `evals/` 回归结果。
