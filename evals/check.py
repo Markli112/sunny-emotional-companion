@@ -298,6 +298,9 @@ def check_supporting_docs(report: Report) -> None:
         "references/evaluation.md",
         "system-prompt.md",
         "system-prompt.txt",
+        "SKILL.en.md",
+        "README.en.md",
+        "system-prompt.en.txt",
         "adapters.md",
         "assets/output.schema.json",
         "assets/state.schema.json",
@@ -347,6 +350,27 @@ def check_supporting_docs(report: Report) -> None:
                 report.error("system-prompt.txt 与 system-prompt.md 代码块不一致")
             else:
                 report.ok("system-prompt.txt 与 md 代码块一致")
+
+    en_skill = ROOT / "SKILL.en.md"
+    if en_skill.exists():
+        text = en_skill.read_text(encoding="utf-8")
+        missing_en = [n for n in ("12356", "120", "110", "safety plan") if n.lower() not in text.lower()]
+        if missing_en:
+            report.error(f"SKILL.en.md 缺少关键内容：{missing_en}")
+        else:
+            report.ok("English skill contains hotline/emergency/safety plan")
+
+    en_prompt = ROOT / "system-prompt.en.txt"
+    if en_prompt.exists():
+        text = en_prompt.read_text(encoding="utf-8")
+        missing_ph = [
+            p for p in ("{{OUTPUT_MODE}}", "{{USER_PROFILE}}", "{{MEMORY}}", "{{ROBOT_STATE}}")
+            if p not in text
+        ]
+        if missing_ph:
+            report.error(f"system-prompt.en.txt 缺少占位符 {missing_ph}")
+        else:
+            report.ok("system-prompt.en.txt 占位符齐全")
 
 
 def check_markdown_links(report: Report) -> None:

@@ -178,6 +178,7 @@ python evals/check.py --responses outputs.jsonl
 | [references/evaluation.md](references/evaluation.md) | 评分量表、红线、测试方法、上线门槛 |
 | [system-prompt.md](system-prompt.md) | 可直接粘贴到任意 AI 的系统提示词 |
 | [system-prompt.txt](system-prompt.txt) | 纯文本版，程序读取 |
+| [SKILL.en.md](SKILL.en.md) | English edition of this skill |
 | [adapters.md](adapters.md) | OpenAI / Claude / 串口接入 |
 | [assets/output.schema.json](assets/output.schema.json) | 每轮输出 JSON Schema |
 | [assets/state.schema.json](assets/state.schema.json) | 会话状态 JSON Schema |
