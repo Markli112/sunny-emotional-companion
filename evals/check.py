@@ -293,7 +293,7 @@ def check_supporting_docs(report: Report) -> None:
     required = [
         "SKILL.md",
         "README.md",
-        "readme.cn",
+        "README.cn.md",
         "references/cn/scenarios.md",
         "references/cn/safety.md",
         "references/cn/hardware.md",
@@ -375,7 +375,7 @@ def check_markdown_links(report: Report) -> None:
     print("\n[5/6] Markdown 链接")
     bad: list[str] = []
     paths = sorted(ROOT.rglob("*.md"))
-    readme_cn = ROOT / "readme.cn"
+    readme_cn = ROOT / "README.cn.md"
     if readme_cn.exists():
         paths.append(readme_cn)
     for path in paths:

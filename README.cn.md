@@ -92,7 +92,7 @@ python evals/check.py --responses outputs.jsonl
 ```text
 sunny-skill-framework/
 ├── README.md                     # English README
-├── readme.cn                     # 中文 README
+├── README.cn.md                  # 中文 README
 ├── SKILL.md                      # 中英双语入口：语言策略、规则、五步、风险、输出契约
 ├── system-prompt.txt             # English prompt
 ├── system-prompt.cn.txt          # 中文纯文本版，程序直接读取

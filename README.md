@@ -13,7 +13,7 @@ One **bilingual** skill for the **Sunny** desktop robot. The same `SKILL.md` han
 | [SKILL.md](SKILL.md) | The one bilingual skill: language policy, rules, five-step loop, L0–L3 safety, output contract, scenarios |
 | [system-prompt.txt](system-prompt.txt) | Ready-to-paste English prompt with `{{...}}` placeholders |
 | [system-prompt.cn.txt](system-prompt.cn.txt) | Chinese prompt |
-| [readme.cn](readme.cn) | Chinese guide |
+| [README.cn.md](README.cn.md) | Chinese guide |
 
 The deep-dive references (`references/cn/safety.md`, `references/cn/scenarios.md`, etc.) are in Chinese. The English safety essentials are included directly in `SKILL.md`; English deep-dive files can be added later if needed.
 
