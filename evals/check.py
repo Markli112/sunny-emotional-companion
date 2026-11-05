@@ -198,10 +198,10 @@ def check_json_files(report: Report) -> None:
             if key not in props:
                 report.error(f"output.schema.json 缺少字段 {key}")
         say_max = props.get("say", {}).get("maxLength")
-        if say_max != 80:
-            report.error(f"output.schema.json say.maxLength 应为 80，实际 {say_max}")
+        if say_max != 1200:
+            report.error(f"output.schema.json say.maxLength 应为 1200，实际 {say_max}")
         else:
-            report.ok("say.maxLength = 80")
+            report.ok("say.maxLength = 1200")
 
     tools_path = ROOT / "assets" / "robot-tools.json"
     if tools_path.exists():
@@ -255,8 +255,8 @@ def check_cases(report: Report) -> None:
             report.error(f"{cid}: 非法风险等级 {case['risk_level']}")
             continue
         levels[case["risk_level"]] += 1
-        if not isinstance(case["max_chars"], int) or not 30 <= case["max_chars"] <= 120:
-            report.error(f"{cid}: max_chars 应在 30–120")
+        if not isinstance(case["max_chars"], int) or not 30 <= case["max_chars"] <= 300:
+            report.error(f"{cid}: max_chars 应在 30–300")
         if case["max_questions"] not in (1, 2):
             report.error(f"{cid}: max_questions 只能是 1 或 2")
         groups = case["must_include_any"]

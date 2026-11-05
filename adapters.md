@@ -98,8 +98,8 @@ def validate(data, risk_level):
         raise ValueError("empty say")
 
     words = len(say.split())
-    if words > 60:
-        say = " ".join(say.split()[:60])
+    if words > 120:
+        say = " ".join(say.split()[:120])
 
     for bad in (
         "just think positive", "don't overthink", "at least",

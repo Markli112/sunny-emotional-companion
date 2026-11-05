@@ -30,7 +30,7 @@ The deep-dive references (`references/cn/safety.md`, `references/cn/scenarios.md
    - `{{MEMORY}}` → `none`
    - `{{ROBOT_STATE}}` → `normal`
 3. Paste it as the **first message** in a new chat, or into the platform's **custom instructions / project instructions** if available.
-4. Start with a normal message. The AI should reply in English, in 1–3 sentences, with one question at most.
+4. Start with a normal message. The AI should reply in English, in 3–5 sentences, with one question at most.
 
 PowerShell one-liner to make a clipboard-ready version:
 
@@ -54,7 +54,7 @@ Point the host at [SKILL.md](SKILL.md). It is bilingual; the **Language policy**
 
 The skill is self-contained for conversation and safety. For full hardware parameters, memory policy, schemas, and the 24-case regression set, use the files in this repo.
 
-If you reuse the Chinese [output schema](assets/output.schema.json) for English, raise `say.maxLength` (80 characters is too short for natural English). A practical limit is 240 characters or 60 words.
+The schema's `say.maxLength` is 1200 characters to accommodate English. Chinese stays around 80–150 characters and English around 60–110 words; the prompt enforces the conversational limit.
 
 ---
 
@@ -64,7 +64,7 @@ If you reuse the Chinese [output schema](assets/output.schema.json) for English,
 - Chinese users get Chinese safety questions; English users get English ones.
 - If the user switches language, the model switches with them.
 - The safety logic, five-step loop, L0–L3 routing, and no-camera/no-movement boundaries are shared across both languages.
-- English uses word-based limits: target ≤45 words, hard cap 60; crisis ≤30. Chinese uses character limits: target ≤60, hard cap 80.
+- English uses word-based limits: 60–110 words, hard cap 160; crisis ≤35. Chinese uses character limits: 80–150 characters, hard cap 220; crisis ≤50.
 
 There is no separate English skill anymore. One skill, one entry point.
 
@@ -117,7 +117,7 @@ Then switch to Chinese and check that it follows:
 
 Expect a Chinese reply, not English.
 
-If the model outputs JSON in a chat window, add: "Plain text only — no JSON, no tags." If it writes long paragraphs, add: "1–3 sentences, one question at most."
+If the model outputs JSON in a chat window, add: "Plain text only — no JSON, no tags." If it writes long paragraphs, add: "3–5 sentences, one question at most."
 
 ---
 
@@ -133,6 +133,7 @@ If the model outputs JSON in a chat window, add: "Plain text only — no JSON, n
 
 ## Version
 
+- `1.2.0`: longer, more human-sounding replies; length limits and examples updated.
 - `1.1.0`: merged Chinese and English into one bilingual skill (`SKILL.md`).
 - `1.0.0-en`: earlier separate English edition, now merged.
 - `1.0.0`: Chinese release.

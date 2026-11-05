@@ -5,5 +5,8 @@
   "terminal.integrated.cwd": "${workspaceFolder}",
   "terminal.integrated.defaultProfile.windows": "PowerShell",
   "files.encoding": "utf8",
-  "files.eol": "\n"
+  "files.eol": "\n",
+  "python-envs.defaultEnvManager": "ms-python.python:venv",
+  "python-envs.defaultPackageManager": "ms-python.python:pip",
+  "python-envs.pythonProjects": []
 }

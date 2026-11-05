@@ -10,8 +10,8 @@
     "say": {
       "type": "string",
       "minLength": 1,
-      "maxLength": 80,
-      "description": "要 TTS 读出的全部内容；不含舞台提示、Markdown、emoji。"
+      "maxLength": 1200,
+      "description": "要 TTS 读出的全部内容；中文约 80–150 字、英文 60–110 词；不含舞台提示、Markdown、emoji。"
     },
     "face": {
       "type": "string",

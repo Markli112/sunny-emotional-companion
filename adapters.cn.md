@@ -93,7 +93,7 @@ def validate(data, risk_level):
     say = (data.get("say") or "").strip()
     if not say:
         raise ValueError("empty say")
-    if len(say) > 80:
+    if len(say) > 180:
         say = say[:80]
     for bad in ("想开点", "别想太多", "至少你还有", "别人更惨", "都会好的"):
         if bad in say:
