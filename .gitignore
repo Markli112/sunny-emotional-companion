@@ -4,6 +4,7 @@ __pycache__/
 .venv/
 .venv*/
 .piptmp/
+pip-*/
 
 # OS
 .DS_Store
@@ -15,3 +16,4 @@ Thumbs.db
 *.zip
 voice.wav
 sunny_voice.wav
+*.mp3

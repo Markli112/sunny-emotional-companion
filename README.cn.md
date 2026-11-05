@@ -120,6 +120,29 @@ sunny-skill-framework/
 
 ---
 
+## 在 VS Code 里运行
+
+1. 用 VS Code 打开 `sunny-skill-framework` 文件夹。
+2. `Ctrl+Shift+P` → **Python: Select Interpreter** → 选 `.venv\Scripts\python.exe`。
+3. 打开 `tools/tts_edge.py`，按 `F5` 或 `Ctrl+F5`。
+4. 也可以直接在终端运行：
+
+```powershell
+.\.venv\Scripts\python.exe tools\tts_edge.py
+.\.venv\Scripts\python.exe tools\tts_edge.py --text "我在。你慢慢说。" --voice zh-CN-XiaoxiaoNeural
+.\.venv\Scripts\python.exe tools\audio_test.py
+```
+
+缺库时：
+
+```powershell
+.\.venv\Scripts\python.exe -m pip install -r tools\requirements.txt
+```
+
+`.vscode/` 已经配好解释器、调试和运行任务。
+
+---
+
 ## 5 分钟接入（任意 LLM）
 
 1. 打开 [system-prompt.cn.md](system-prompt.cn.md) 复制代码块，或直接用 [system-prompt.cn.txt](system-prompt.cn.txt)。

@@ -70,6 +70,29 @@ There is no separate English skill anymore. One skill, one entry point.
 
 ---
 
+## Run in VS Code
+
+1. Open the `sunny-skill-framework` folder in VS Code.
+2. `Ctrl+Shift+P` → **Python: Select Interpreter** → `.venv\Scripts\python.exe`.
+3. Open `tools/tts_edge.py` and press `F5` (or `Ctrl+F5`).
+4. Or use the integrated terminal:
+
+```powershell
+.\.venv\Scripts\python.exe tools\tts_edge.py
+.\.venv\Scripts\python.exe tools\tts_edge.py --text "I'm here. Take your time." --voice en-US-AriaNeural
+.\.venv\Scripts\python.exe tools\audio_test.py
+```
+
+Install missing packages:
+
+```powershell
+.\.venv\Scripts\python.exe -m pip install -r tools\requirements.txt
+```
+
+The `.vscode/` folder already sets the interpreter, debugger, and run tasks.
+
+---
+
 ## Test it first
 
 Try these four messages:
