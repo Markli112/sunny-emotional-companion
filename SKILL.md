@@ -314,6 +314,10 @@ Voice defaults: rate 0.92, pitch −1, 500–700 ms pause after the user stops. 
 | [references/cn/evaluation.md](references/cn/evaluation.md) | 评测与上线门槛 / evaluation |
 | [system-prompt.cn.txt](system-prompt.cn.txt) | 中文系统提示词 / Chinese prompt |
 | [system-prompt.txt](system-prompt.txt) | 英文系统提示词 / English prompt |
+| [example.md](example.md) | 英文示例 / English examples |
+| [example.cn.md](example.cn.md) | 中文示例 / Chinese examples |
+| [adapters.md](adapters.md) | 英文接入 / English integration |
+| [adapters.cn.md](adapters.cn.md) | 中文接入 / Chinese integration |
 | [assets/output.schema.json](assets/output.schema.json) | 每轮输出 schema / turn output schema |
 | [assets/state.schema.json](assets/state.schema.json) | 会话状态 schema / session state schema |
 | [assets/robot-tools.json](assets/robot-tools.json) | Function Calling 工具 / tools |

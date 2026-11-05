@@ -97,7 +97,9 @@ sunny-skill-framework/
 ├── system-prompt.txt             # English prompt
 ├── system-prompt.cn.txt          # 中文纯文本版，程序直接读取
 ├── system-prompt.cn.md           # 中文提示词说明
+├── example.md                    # English examples
 ├── example.cn.md                 # 3 段带批注的中文对话
+├── adapters.md                   # English integration
 ├── adapters.cn.md                # OpenAI / Claude / 串口接入（中文）
 ├── assets/
 │   ├── output.schema.json        # 每轮输出 JSON Schema

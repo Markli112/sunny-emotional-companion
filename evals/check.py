@@ -303,12 +303,14 @@ def check_supporting_docs(report: Report) -> None:
         "system-prompt.cn.txt",
         "system-prompt.txt",
         "adapters.cn.md",
+        "adapters.md",
         "assets/output.schema.json",
         "assets/state.schema.json",
         "assets/robot-tools.json",
         "evals/cases.jsonl",
         "evals/check.py",
         "example.cn.md",
+        "example.md",
     ]
     missing = [p for p in required if not (ROOT / p).exists()]
     if missing:

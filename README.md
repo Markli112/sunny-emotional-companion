@@ -14,6 +14,8 @@ One **bilingual** skill for the **Sunny** desktop robot. The same `SKILL.md` han
 | [system-prompt.txt](system-prompt.txt) | Ready-to-paste English prompt with `{{...}}` placeholders |
 | [system-prompt.cn.txt](system-prompt.cn.txt) | Chinese prompt |
 | [README.cn.md](README.cn.md) | Chinese guide |
+| [example.md](example.md) | English annotated examples |
+| [adapters.md](adapters.md) | English integration guide |
 
 The deep-dive references (`references/cn/safety.md`, `references/cn/scenarios.md`, etc.) are in Chinese. The English safety essentials are included directly in `SKILL.md`; English deep-dive files can be added later if needed.
 
