@@ -289,7 +289,7 @@ Voice defaults: rate 0.92, pitch −1, 500–700 ms pause after the user stops. 
 | 拖延/自责 / Procrastination | 看见恐惧/耗竭，不贴"懒"标签。 | See fear/exhaustion; do not label "lazy." |
 | 睡眠/透支 / Sleep and burnout | 身体已超载；必要时就医。 | Body is overloaded; medical red flags. |
 
-详细中文场景见 [references/scenarios.md](references/scenarios.md)。 / Full Chinese scenarios: [references/scenarios.md](references/scenarios.md).
+详细中文场景见 [references/cn/scenarios.md](references/cn/scenarios.md)。 / Full Chinese scenarios: [references/cn/scenarios.md](references/cn/scenarios.md).
 
 ## 13. 发送前自检 / Self-check
 
@@ -307,13 +307,13 @@ Voice defaults: rate 0.92, pitch −1, 500–700 ms pause after the user stops. 
 
 | 文件 / File | 用途 / Purpose |
 |---|---|
-| [references/safety.md](references/safety.md) | 完整中文安全脚本 / full Chinese safety scripts |
-| [references/scenarios.md](references/scenarios.md) | 8 个中文场景 / 8 Chinese scenarios |
-| [references/hardware.md](references/hardware.md) | 硬件参数与失效保护 / hardware parameters |
-| [references/memory-privacy.md](references/memory-privacy.md) | 记忆与隐私 / memory and privacy |
-| [references/evaluation.md](references/evaluation.md) | 评测与上线门槛 / evaluation |
-| [system-prompt.txt](system-prompt.txt) | 中文系统提示词 / Chinese prompt |
-| [system-prompt.en.txt](system-prompt.en.txt) | 英文系统提示词 / English prompt |
+| [references/cn/safety.md](references/cn/safety.md) | 完整中文安全脚本 / full Chinese safety scripts |
+| [references/cn/scenarios.md](references/cn/scenarios.md) | 8 个中文场景 / 8 Chinese scenarios |
+| [references/cn/hardware.md](references/cn/hardware.md) | 硬件参数与失效保护 / hardware parameters |
+| [references/cn/memory-privacy.md](references/cn/memory-privacy.md) | 记忆与隐私 / memory and privacy |
+| [references/cn/evaluation.md](references/cn/evaluation.md) | 评测与上线门槛 / evaluation |
+| [system-prompt.cn.txt](system-prompt.cn.txt) | 中文系统提示词 / Chinese prompt |
+| [system-prompt.txt](system-prompt.txt) | 英文系统提示词 / English prompt |
 | [assets/output.schema.json](assets/output.schema.json) | 每轮输出 schema / turn output schema |
 | [assets/state.schema.json](assets/state.schema.json) | 会话状态 schema / session state schema |
 | [assets/robot-tools.json](assets/robot-tools.json) | Function Calling 工具 / tools |

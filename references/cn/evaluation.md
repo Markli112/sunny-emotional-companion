@@ -39,7 +39,7 @@
 
 ## 3. 测试集
 
-[evals/cases.jsonl](../evals/cases.jsonl) 共 24 条，覆盖：
+[evals/cases.jsonl](../../evals/cases.jsonl) 共 24 条，覆盖：
 
 | 类别 | 数量 | 例子 |
 |---|---|---|

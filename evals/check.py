@@ -291,22 +291,24 @@ def check_cases(report: Report) -> None:
 def check_supporting_docs(report: Report) -> None:
     print("\n[4/6] 关键文档")
     required = [
-        "references/scenarios.md",
-        "references/safety.md",
-        "references/hardware.md",
-        "references/memory-privacy.md",
-        "references/evaluation.md",
-        "system-prompt.md",
+        "SKILL.md",
+        "README.md",
+        "readme.cn",
+        "references/cn/scenarios.md",
+        "references/cn/safety.md",
+        "references/cn/hardware.md",
+        "references/cn/memory-privacy.md",
+        "references/cn/evaluation.md",
+        "system-prompt.cn.md",
+        "system-prompt.cn.txt",
         "system-prompt.txt",
-        "README.en.md",
-        "system-prompt.en.txt",
-        "adapters.md",
+        "adapters.cn.md",
         "assets/output.schema.json",
         "assets/state.schema.json",
         "assets/robot-tools.json",
         "evals/cases.jsonl",
         "evals/check.py",
-        "example.md",
+        "example.cn.md",
     ]
     missing = [p for p in required if not (ROOT / p).exists()]
     if missing:
@@ -314,16 +316,16 @@ def check_supporting_docs(report: Report) -> None:
     else:
         report.ok(f"{len(required)} 个关键文档齐全")
 
-    safety = ROOT / "references" / "safety.md"
+    safety = ROOT / "references" / "cn" / "safety.md"
     if safety.exists():
         text = safety.read_text(encoding="utf-8")
         missing_safety = [n for n in ("12356", "120", "110", "安全计划") if n not in text]
         if missing_safety:
-            report.error(f"references/safety.md 缺少关键内容：{missing_safety}")
+            report.error(f"references/cn/safety.md 缺少关键内容：{missing_safety}")
         else:
             report.ok("安全文档包含热线/急救/安全计划")
 
-    for prompt_name in ("system-prompt.md", "system-prompt.txt"):
+    for prompt_name in ("system-prompt.txt", "system-prompt.cn.txt", "system-prompt.cn.md"):
         prompt = ROOT / prompt_name
         if not prompt.exists():
             report.error(f"{prompt_name} 不存在")
@@ -338,17 +340,17 @@ def check_supporting_docs(report: Report) -> None:
         else:
             report.ok(f"{prompt_name} 占位符齐全")
 
-    md_prompt = ROOT / "system-prompt.md"
-    txt_prompt = ROOT / "system-prompt.txt"
+    md_prompt = ROOT / "system-prompt.cn.md"
+    txt_prompt = ROOT / "system-prompt.cn.txt"
     if md_prompt.exists() and txt_prompt.exists():
         md_text = md_prompt.read_text(encoding="utf-8")
         if "```text" in md_text and "```" in md_text.split("```text", 1)[1]:
             block = md_text.split("```text", 1)[1].split("```", 1)[0].strip()
             raw = txt_prompt.read_text(encoding="utf-8").strip()
             if block != raw:
-                report.error("system-prompt.txt 与 system-prompt.md 代码块不一致")
+                report.error("system-prompt.cn.txt 与 system-prompt.cn.md 代码块不一致")
             else:
-                report.ok("system-prompt.txt 与 md 代码块一致")
+                report.ok("system-prompt.cn.txt 与 md 代码块一致")
 
     bilingual = ROOT / "SKILL.md"
     if bilingual.exists():
@@ -360,23 +362,23 @@ def check_supporting_docs(report: Report) -> None:
         else:
             report.ok("SKILL.md 包含中英双语核心段")
 
-    en_prompt = ROOT / "system-prompt.en.txt"
+    en_prompt = ROOT / "system-prompt.txt"
     if en_prompt.exists():
         text = en_prompt.read_text(encoding="utf-8")
-        missing_ph = [
-            p for p in ("{{OUTPUT_MODE}}", "{{USER_PROFILE}}", "{{MEMORY}}", "{{ROBOT_STATE}}")
-            if p not in text
-        ]
-        if missing_ph:
-            report.error(f"system-prompt.en.txt 缺少占位符 {missing_ph}")
+        if "Language:" not in text:
+            report.error("system-prompt.txt 缺少语言策略")
         else:
-            report.ok("system-prompt.en.txt 占位符齐全")
+            report.ok("system-prompt.txt 包含语言策略")
 
 
 def check_markdown_links(report: Report) -> None:
     print("\n[5/6] Markdown 链接")
     bad: list[str] = []
-    for path in sorted(ROOT.rglob("*.md")):
+    paths = sorted(ROOT.rglob("*.md"))
+    readme_cn = ROOT / "readme.cn"
+    if readme_cn.exists():
+        paths.append(readme_cn)
+    for path in paths:
         text = path.read_text(encoding="utf-8")
         for target in LINK_RE.findall(text):
             if target.startswith(("http://", "https://", "mailto:", "#")):
@@ -389,7 +391,7 @@ def check_markdown_links(report: Report) -> None:
     if bad:
         report.error(f"失效的相对链接：{bad[:10]}")
     else:
-        report.ok(f"{len(list(ROOT.rglob('*.md')))} 个 Markdown 文件链接均存在")
+        report.ok(f"{len(paths)} 个文档链接均存在")
 
 
 def count_questions(text: str) -> int:
