@@ -1,0 +1,149 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sunny.local/schemas/output.schema.json",
+  "title": "SunnyTurnOutput",
+  "description": "Sunny 每轮对话的输出契约。宿主可只使用 say；机器人后端解析全部字段。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["say", "face", "led", "voice", "risk"],
+  "properties": {
+    "say": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 80,
+      "description": "要 TTS 读出的全部内容；不含舞台提示、Markdown、emoji。"
+    },
+    "face": {
+      "type": "string",
+      "enum": [
+        "neutral",
+        "listening",
+        "soft_smile",
+        "concerned",
+        "calm",
+        "happy",
+        "sleepy",
+        "alert",
+        "sad_echo"
+      ]
+    },
+    "led": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["preset"],
+      "properties": {
+        "preset": {
+          "type": "string",
+          "enum": [
+            "warm_breath",
+            "steady_white",
+            "blue_slow",
+            "rainbow_chase",
+            "soft_pink",
+            "alert_amber",
+            "dim_off"
+          ]
+        },
+        "brightness": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "duration_ms": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 60000
+        }
+      }
+    },
+    "voice": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["rate", "pause_before_ms"],
+      "properties": {
+        "rate": {
+          "type": "number",
+          "minimum": 0.7,
+          "maximum": 1.2,
+          "default": 0.92
+        },
+        "pitch": {
+          "type": "number",
+          "minimum": -3,
+          "maximum": 3,
+          "default": -1
+        },
+        "pause_before_ms": {
+          "type": "integer",
+          "minimum": 300,
+          "maximum": 1200,
+          "default": 600
+        }
+      }
+    },
+    "display": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "icon": {
+          "type": "string",
+          "enum": ["heart", "cloud", "rainbow", "moon", "sun", "breath", "phone", "none"]
+        },
+        "caption": {
+          "type": "string",
+          "maxLength": 8
+        }
+      }
+    },
+    "risk": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["level"],
+      "properties": {
+        "level": {
+          "type": "string",
+          "enum": ["L0", "L1", "L2", "L3"]
+        },
+        "rationale": {
+          "type": "string",
+          "maxLength": 60,
+          "description": "简短理由；不写血腥/方法细节。"
+        }
+      }
+    },
+    "memory_write": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["type", "content", "ttl_days", "consent"],
+          "properties": {
+            "type": {
+              "type": "string",
+              "enum": ["preference", "soothing", "event", "person", "boundary", "safety_plan"]
+            },
+            "content": {
+              "type": "string",
+              "maxLength": 120
+            },
+            "ttl_days": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 3650
+            },
+            "consent": {
+              "const": true
+            }
+          }
+        }
+      ]
+    },
+    "end_session": {
+      "type": "boolean",
+      "default": false
+    }
+  }
+}

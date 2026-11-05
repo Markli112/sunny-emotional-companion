@@ -1,0 +1,135 @@
+{
+  "tools": [
+    {
+      "type": "function",
+      "function": {
+        "name": "sunny_express",
+        "description": "在开口前设置 Sunny 的表情、LED、语音和屏幕。每轮调用一次；安全状态优先。不要用它替代说话。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["face", "led_preset"],
+          "properties": {
+            "face": {
+              "type": "string",
+              "enum": [
+                "neutral",
+                "listening",
+                "soft_smile",
+                "concerned",
+                "calm",
+                "happy",
+                "sleepy",
+                "alert",
+                "sad_echo"
+              ],
+              "description": "表情。用户痛苦时用 concerned/calm，不要 soft_smile/happy。"
+            },
+            "led_preset": {
+              "type": "string",
+              "enum": [
+                "warm_breath",
+                "steady_white",
+                "blue_slow",
+                "rainbow_chase",
+                "soft_pink",
+                "alert_amber",
+                "dim_off"
+              ],
+              "description": "LED 预设。安全状态用 alert_amber 缓慢脉冲，禁止红色爆闪。"
+            },
+            "voice_rate": {
+              "type": "number",
+              "minimum": 0.7,
+              "maximum": 1.2,
+              "description": "语速。日常 0.92；高唤醒/危机 0.82–0.88。"
+            },
+            "pause_before_ms": {
+              "type": "integer",
+              "minimum": 300,
+              "maximum": 1200,
+              "description": "用户停止说话后到开口的停顿；默认 600。"
+            },
+            "display_caption": {
+              "type": "string",
+              "maxLength": 8,
+              "description": "屏幕短句，≤8 个汉字；可为空。"
+            },
+            "display_icon": {
+              "type": "string",
+              "enum": ["heart", "cloud", "rainbow", "moon", "sun", "breath", "phone", "none"]
+            }
+          }
+        }
+      }
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "sunny_remember",
+        "description": "写入一条长期记忆。只有用户明确同意时才能调用；consent 必须为 true。不要存原始逐字稿、地址、身份证、诊断或第三方隐私。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["type", "content", "ttl_days", "consent"],
+          "properties": {
+            "type": {
+              "type": "string",
+              "enum": ["preference", "soothing", "event", "person", "boundary", "safety_plan"],
+              "description": "preference=偏好；soothing=有效安抚方式；event=近期事件；person=称呼；boundary=禁区；safety_plan=安全计划。"
+            },
+            "content": {
+              "type": "string",
+              "maxLength": 120,
+              "description": "一句可读的短句，不要存敏感细节。"
+            },
+            "ttl_days": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 3650,
+              "description": "保留天数。event 默认 30；preference 可更长。"
+            },
+            "consent": {
+              "type": "boolean",
+              "const": true,
+              "description": "用户是否明确同意。未同意不要调用。"
+            }
+          }
+        }
+      }
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "sunny_request_human_help",
+        "description": "请求 App 展示热线/紧急联系人/人工客服入口。不会自动拨号，也不代表已经有人接手。L1 可询问后调用；L2/L3 立即调用并持续陪伴。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["level", "reason"],
+          "properties": {
+            "level": {
+              "type": "string",
+              "enum": ["L1", "L2", "L3"],
+              "description": "风险等级。不确定时取更高一级。"
+            },
+            "reason": {
+              "type": "string",
+              "maxLength": 80,
+              "description": "简短理由，不写方法/血腥细节。"
+            },
+            "user_consent": {
+              "type": "boolean",
+              "description": "用户是否同意联系真人/紧急联系人。L3 立即危险时可优先安全。"
+            },
+            "show_hotline": {
+              "type": "boolean",
+              "default": true,
+              "description": "是否在屏幕显示 12356 与呼叫入口。"
+            }
+          }
+        }
+      }
+    }
+  ]
+}

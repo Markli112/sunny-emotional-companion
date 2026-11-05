@@ -1,0 +1,188 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sunny.local/schemas/state.schema.json",
+  "title": "SunnySessionState",
+  "description": "会话状态。只保存陪伴所需的最小信息；长期记忆需另经用户同意。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["session_id", "turn", "phase", "emotion", "risk", "needs", "preferences"],
+  "properties": {
+    "session_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 64
+    },
+    "turn": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "phase": {
+      "type": "string",
+      "enum": ["attune", "explore", "regulate", "act", "close", "safety"]
+    },
+    "emotion": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["label", "intensity"],
+      "properties": {
+        "label": {
+          "type": "string",
+          "maxLength": 20
+        },
+        "intensity": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 10
+        },
+        "confidence": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "evidence": {
+          "type": "array",
+          "maxItems": 5,
+          "items": {
+            "type": "string",
+            "maxLength": 40
+          }
+        }
+      }
+    },
+    "risk": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["level"],
+      "properties": {
+        "level": {
+          "type": "string",
+          "enum": ["L0", "L1", "L2", "L3"]
+        },
+        "signals": {
+          "type": "array",
+          "maxItems": 5,
+          "items": {
+            "type": "string",
+            "maxLength": 40
+          }
+        },
+        "asked_directly": {
+          "type": "boolean",
+          "default": false
+        }
+      }
+    },
+    "needs": {
+      "type": "array",
+      "maxItems": 4,
+      "items": {
+        "type": "string",
+        "enum": ["be_heard", "be_accompanied", "advice", "referral", "quiet", "safety"]
+      }
+    },
+    "preferences": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "advice": {
+          "type": "string",
+          "enum": ["ask_first", "welcome", "avoid"]
+        },
+        "nickname": {
+          "type": "string",
+          "maxLength": 12
+        },
+        "slow_speech": {
+          "type": "boolean"
+        },
+        "quiet_mode": {
+          "type": "boolean"
+        }
+      }
+    },
+    "commitments": {
+      "type": "array",
+      "maxItems": 5,
+      "items": {
+        "type": "string",
+        "maxLength": 80
+      }
+    },
+    "safety_plan": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "warning_signs": {
+              "type": "array",
+              "maxItems": 5,
+              "items": {
+                "type": "string",
+                "maxLength": 60
+              }
+            },
+            "coping": {
+              "type": "array",
+              "maxItems": 5,
+              "items": {
+                "type": "string",
+                "maxLength": 60
+              }
+            },
+            "contacts": {
+              "type": "array",
+              "maxItems": 3,
+              "items": {
+                "type": "string",
+                "maxLength": 40
+              }
+            },
+            "professional": {
+              "type": "array",
+              "maxItems": 3,
+              "items": {
+                "type": "string",
+                "maxLength": 40
+              }
+            },
+            "environment": {
+              "type": "string",
+              "maxLength": 120
+            }
+          }
+        }
+      ]
+    },
+    "memory_candidates": {
+      "type": "array",
+      "maxItems": 5,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["type", "content"],
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": ["preference", "soothing", "event", "person", "boundary", "safety_plan"]
+          },
+          "content": {
+            "type": "string",
+            "maxLength": 120
+          },
+          "consent": {
+            "type": "boolean",
+            "default": false
+          }
+        }
+      }
+    },
+    "last_updated": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}
