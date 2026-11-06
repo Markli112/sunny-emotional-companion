@@ -5,7 +5,7 @@
 ## 1. Pipeline
 
 ```text
-Microphone → local wake word/VAD → ASR → orchestrator
+Physical button → microphone → local VAD → ASR → orchestrator
   ├─ load system-prompt.txt
   ├─ inject preferences, memory, battery/network
   ├─ parallel: LLM generation + risk classifier
@@ -20,10 +20,11 @@ TTS + face/LED commands → speaker + screen + LED
 ## 2. OpenAI / compatible Chat Completions
 
 ```python
-import json, os
+import os
+from tools.validate_reply import validate_reply
 from openai import OpenAI
 
-client = OpenAI(api_key=os.environ["OPENAI_API_KEY"])
+client = OpenAI(api_key=os.environ["OPENAI_API_KEY"], timeout=10.0, max_retries=0)
 SYSTEM = open("system-prompt.txt", encoding="utf-8").read()
 SYSTEM = (SYSTEM
     .replace("{{OUTPUT_MODE}}", "json")
@@ -41,7 +42,7 @@ resp = client.chat.completions.create(
         {"role": "user", "content": "I have a presentation tomorrow and my heart is racing."},
     ],
 )
-data = json.loads(resp.choices[0].message.content)
+data = validate_reply(resp.choices[0].message.content)
 print(data["say"])
 ```
 
@@ -52,10 +53,11 @@ print(data["say"])
 ## 3. Anthropic Claude
 
 ```python
-import json, os
+import os
+from tools.validate_reply import validate_reply
 from anthropic import Anthropic
 
-client = Anthropic(api_key=os.environ["ANTHROPIC_API_KEY"])
+client = Anthropic(api_key=os.environ["ANTHROPIC_API_KEY"], timeout=10.0, max_retries=0)
 SYSTEM = open("system-prompt.txt", encoding="utf-8").read()
 SYSTEM = (SYSTEM
     .replace("{{OUTPUT_MODE}}", "json")
@@ -71,10 +73,10 @@ msg = client.messages.create(
     messages=[{"role": "user", "content": "I have a presentation tomorrow and my heart is racing."}],
 )
 text = "".join(b.text for b in msg.content if b.type == "text")
-data = json.loads(text)
+data = validate_reply(text)
 ```
 
-Claude has no OpenAI-style `response_format`. Reliable approach: state "return JSON only" in the system prompt, prefill the assistant turn with `{`, and fall back to plain `say` if parsing fails.
+Use the host fallback below if parsing or validation fails.
 
 ## 4. Serial / WebSocket
 
@@ -87,41 +89,15 @@ Newline-delimited JSON, UTF-8:
 
 - Send `express` before `speak`; `seq` is monotonic; firmware drops stale frames.
 - Heartbeat every 5s; after 3 misses, enter the local fallback.
-- Safety mode: `{"type":"mode","value":"safety"}` keeps warm amber + 12356 on screen; it does not auto-exit.
+- Safety mode: `{"type":"mode","value":"safety"}` keeps warm amber + verified local help on screen; it does not auto-exit.
 
-## 5. Output validation
+## 5. Output validation and device state
 
-```python
-def validate(data, risk_level):
-    say = (data.get("say") or "").strip()
-    if not say:
-        raise ValueError("empty say")
+Run the examples from the repository root after installing `jsonschema` and the chosen provider SDK. `validate_reply` rejects oversized replies, duplicate keys, invalid JSON, schema violations, and blank speech. A valid reply is a candidate. The host owns playback and safety routing. Ignore model-supplied `memory_write` and `end_session`.
 
-    words = len(say.split())
-    if words > 120:
-        say = " ".join(say.split()[:120])
-
-    for bad in (
-        "just think positive", "don't overthink", "at least",
-        "others have it worse", "it will all work out",
-    ):
-        if bad in say.lower():
-            raise ValueError(f"forbidden: {bad}")
-
-    if say.count("?") > (2 if risk_level in ("L2", "L3") else 1):
-        raise ValueError("too many questions")
-
-    data["say"] = say
-    return data
-```
-
-On failure, fall back to:
-
-```json
-{"say":"I'm here. Take your time.","face":"concerned","led":{"preset":"warm_breath"},"risk":{"level":"L0"}}
-```
-
-The Chinese edition uses a character limit (80). English uses words; adjust the schema's `say.maxLength` if you use it for English.
+- **Standby → listening → waiting → reflection → support choice.** Only a physical press starts capture. Allow brief pauses. Check that the turn is current before rendering it. Pause capture during playback and allow the physical button to interrupt playback.
+- **Pause / stop / delete.** Stop local capture and playback immediately. Cancel network work where possible. Carry session and turn IDs and discard stale results before rendering or speaking. Deletion clears local session data. Describe provider retention separately.
+- **Offline, timeout, or invalid response.** Use a local status message only while the turn is current. Keep raw model output out of TTS. Preserve any known risk and keep help controls available. Treat classifier failure as unknown risk. Use verified regional resources and require a user action to contact anyone.
 
 ## 6. Before launch
 

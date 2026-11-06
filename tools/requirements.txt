@@ -2,3 +2,4 @@ edge-tts
 pedalboard
 soundfile
 pyloudnorm
+jsonschema>=4.18,<5

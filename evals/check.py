@@ -257,8 +257,8 @@ def check_cases(report: Report) -> None:
         levels[case["risk_level"]] += 1
         if not isinstance(case["max_chars"], int) or not 30 <= case["max_chars"] <= 300:
             report.error(f"{cid}: max_chars 应在 30–300")
-        if case["max_questions"] not in (1, 2):
-            report.error(f"{cid}: max_questions 只能是 1 或 2")
+        if case["max_questions"] not in (0, 1, 2):
+            report.error(f"{cid}: max_questions 只能是 0、1 或 2")
         groups = case["must_include_any"]
         if not isinstance(groups, list) or not groups:
             report.error(f"{cid}: must_include_any 必须是非空数组")
